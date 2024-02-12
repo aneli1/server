@@ -9,6 +9,7 @@ class UsuariosRoutes {
     }
     config() {
         this.router.get('/mostrarTodosPacientes/', pacientesControllers_1.pacientesController.mostrarTodosPacientes);
+        this.router.get('/mostrarNombresPacientes/', pacientesControllers_1.pacientesController.mostrarTodosPacientes);
         this.router.get('/obtenerPaciente/:id', pacientesControllers_1.pacientesController.obtenerPacientes);
         this.router.get('/listaNombre/:name', pacientesControllers_1.pacientesController.listaNombre);
         this.router.post('/crearPaciente/', pacientesControllers_1.pacientesController.createPaciente);

@@ -22,6 +22,13 @@ class PacientesController {
             res.json(respuesta);
         });
     }
+    mostrarNombresPacientes(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            //const respuesta = await pool.query('SELECT id_pacientes,nombre,apellidos,fecha_nacimiento,id_consulta,id_usuario FROM pacientes  WHERE usuarios.id_usuario=pacientes.id_usuario');
+            const respuesta = yield database_1.default.query('SELECT id_paciente,nombre,apellidos FROM pacientes');
+            res.json(respuesta);
+        });
+    }
     obtenerPacientes(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;

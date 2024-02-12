@@ -21,6 +21,12 @@ class CitasController {
             res.json(respuesta);
         });
     }
+    mostrarCitasNombres(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const respuesta = yield database_1.default.query('SELECT c.*,p.nombre, p.apellidos FROM citas as c, pacientes as p Where c.id_paciente = p.id_paciente');
+            res.json(respuesta);
+        });
+    }
     listarunaCita(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;

@@ -9,6 +9,7 @@ class CitasRoutes {
     }
     config() {
         this.router.get('/mostrarTodasCitas/', citasControllers_1.citasController.mostrarTodasCitas);
+        this.router.get('/mostrarCitasNombres/', citasControllers_1.citasController.mostrarCitasNombres);
         this.router.get('/listarunaCita/:id', citasControllers_1.citasController.listarunaCita);
         this.router.post('/crearCita/', citasControllers_1.citasController.crearCita);
         this.router.put('/actualizarCita/:id', citasControllers_1.citasController.actualizarCita);
