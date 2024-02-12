@@ -1,0 +1,1981 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "REST API CONSULTORIO MEDICO",
+        "description": "<html><body>Documentacion correspondiente al proyecto de un <b>CONSULTORIO MEDICO</b></body></html>",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "localhost:3002",
+    "basePath": "",
+    "tags": [
+        {
+            "name": "Usuarios",
+            "description": "Tabla para obtener información de todos los usuarios del consultorio"
+        },
+        {
+            "name": "Roles",
+            "description": "Tabla para registrar la información de las roles del consultorio"
+        },
+        {
+            "name": "Medicos",
+            "description": "Tabla para obtener información de los medicos del consultorio"
+        },
+        {
+            "name": "Pacientes",
+            "description": "Tabla para obtener información de los pacientes del consultorio"
+        },
+        {
+            "name": "Citas",
+            "description": "Tabla para obtener información de las citas del consultorio"
+        },
+        {
+            "name": "Horario_Medicos",
+            "description": "Tabla para obtener información de los horarios de los medicos del consultorio"
+        },
+        {
+            "name": "Historial_Clinico",
+            "description": "Tabla para obtener información del historial clinico de cada paciente del consultorio"
+        },
+        {
+            "name": "Consulta",
+            "description": "Tabla para obtener información de la consulta de cada paciente del consultorio"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/api/usuarios/mostrarTodosUsuarios/": {
+            "get": {
+                "tags": ["Usuarios"],
+                "summary": "Listado de todos los usuarios existentes en el consultorio.",
+                "description": "<p>Servicio que devuelve la información detallada de todos los usuarios que existen en el consultorio.</p><p>&nbsp;</p><p><em><strong>¿Cuáles son los usuarios existentes en el consultorio?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id_usuario": 1,
+                                    "nombre": "Amanda",
+                                    "apellidos": "Juárez López",
+                                    "correo": "ajlopez@gmail.com",
+                                    "contraseña": "1234",
+                                    "id_rol": 3
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Usuarios"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": []
+            }
+        },
+        "/api/usuarios/obtenerUsuario/{id}": {
+            "get": {
+                "tags": ["Usuarios"],
+                "summary": "Informacion asociada al usuario, si es que existe en el sistema del consultorio",
+                "description": "<p>Servicio que devuelve la información detallada del usuario que se solicita</p><p>&nbsp;</p><p><em><strong>¿Quién es el usuario de este id?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id_usuario": 1,
+                                    "nombre": "Amanda",
+                                    "apellidos": "Juárez López",
+                                    "correo": "ajlopez@gmail.com",
+                                    "contraseña": "1234",
+                                    "id_rol": 3,
+                                    "telefono": "1234321234"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Usuario"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "identificador del usuario",
+                        "type": "number",
+                        "default": "3"
+                    }
+                ]
+            }
+        },
+        "/api/usuarios/listaUsuarioNombre/{name}": {
+            "get": {
+                "tags": ["Usuarios"],
+                "summary": "Informacion asociada a los usuarios con el nombre ingresado si es que se encuentra(n) en el sistema",
+                "description": "<p>Servicio que devuelve la lista de los usuarios de acuerdo a su nombre mostrando tambien su rol</p><p>&nbsp;</p><p><em><strong>¿Existen usuarios con ese nombre en el consultorio?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id_usuario": 1,
+                                    "nombre": "Amanda",
+                                    "apellidos": "Juárez López",
+                                    "correo": "ajlopez@gmail.com",
+                                    "contraseña": "1234",
+                                    "telefono": "1234321234",
+                                    "nombre_rol": "Paciente"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/MostrarUsuariosNombre"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "required": true,
+                        "description": "nombre del/de los usuario(s)",
+                        "type": "string",
+                        "default": "Tania"
+                    }
+                ]
+            }
+        },
+        "/api/usuarios/actualizarUsuario/{id}": {
+            "put": {
+                "summary": "Actualizar la informaciòn del usuario del consultorio",
+                "description": "<p>Servicio que permite editar la informaciòn del usuario de consultorio, dado el id del correspondiente usuario </p><p>&nbsp;</p>",
+                "operationId": "update",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "identificador del usuario",
+                        "type": "number",
+                        "default": "3"
+                    },
+                    {
+                        "name": "Usuario",
+                        "in": "body",
+                        "description": "Nombre del usuario",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/NuevoUsuario"
+                        }
+                    }
+                ],
+                "tags": ["Usuarios"],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/usuarios/eliminarUsuario/{id}": {
+            "delete": {
+                "tags": ["Usuarios"],
+                "summary": "Eliminar un usuario del consultorio dado su identificador",
+                "description": "<p>Servicio que elimina el usuario dado el identificador que se le envia</p><p>&nbsp;</p><p><em><strong>¿Fué una ejecución exitoso?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "identificador del usuario",
+                        "type": "number",
+                        "default": "0"
+                    }
+                ]
+            }
+        },
+        "/api/Usuarios/crearUsuario": {
+            "post": {
+                "summary": "Creando un usuario",
+                "operationId": "create",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "Usuario",
+                        "in": "body",
+                        "description": "Usuario agregado",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/NuevoUsuario"
+                        }
+                    }
+                ],
+                "tags": ["Usuarios"],
+                "responses": {
+                    "200": {
+                        "description": "Insertado con exito"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/Usuarios/ValidarUsuario": {
+            "post": {
+                "summary": "Validando un usuario",
+                "operationId": "create",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "Usuario",
+                        "in": "body",
+                        "description": "Usuario validado",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ValidarUsuario"
+                        }
+                    }
+                ],
+                "tags": ["Usuarios"],
+                "responses": {
+                    "200": {
+                        "description": "validado con éxito"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/roles/MostrarTodosRoles/": {
+            "get": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Listado de todos los roles que existen en el ciit.",
+                "description": "<p>Servicio que devuelve la información detallada de todos los roles que existen en el ciit.</p><p>&nbsp;</p><p><em><strong>¿Cuáles son los roles existentes en el ciit?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id_rol": 1,
+                                    "nombre_rol": "Administrador"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Roles"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": []
+            }
+        },
+        "/api/roles/obtenerRol/{id}": {
+            "get": {
+                "tags": ["Roles"],
+                "summary": "Informacion asociada al rol, si es que existe en el sistema del consultorio",
+                "description": "<p>Servicio que devuelve la información detallada del id de un rol que se solicita</p><p>&nbsp;</p><p><em><strong>¿Que rol es de este id?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id_rol": 1,
+                                    "nombre_rol": "Administrador"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Rol"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "identificador del rol",
+                        "type": "number",
+                        "default": "3"
+                    }
+                ]
+            }
+        },
+        "/api/roles/listaUsuariosRol/{name}": {
+            "get": {
+                "tags": ["Roles"],
+                "summary": "Informacion asociada a los usuarios con el rol ingresado si es que se encuentra en el sistema",
+                "description": "<p>Servicio que devuelve la lista de los usuarios de acuerdo al rol solicitado</p><p>&nbsp;</p><p><em><strong>¿Quienes son los usuarios con ese rol en el consultorio?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id_usuario": 1,
+                                    "nombre": "Amanda",
+                                    "apellidos": "Juárez López",
+                                    "correo": "ajlopez@gmail.com",
+                                    "contraseña": "1234",
+                                    "telefono": "1234321234",
+                                    "nombre_rol": "Paciente"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/MostrarUsuariosNombre"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "required": true,
+                        "description": "nombre del rol",
+                        "type": "string",
+                        "default": "Paciente"
+                    }
+                ]
+            }
+        },
+        "/api/roles/crearRol/": {
+            "post": {
+                "summary": "Creando un rol",
+                "operationId": "create",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "Rol",
+                        "in": "body",
+                        "description": "Rol agregado",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/NuevoRol"
+                        }
+                    }
+                ],
+                "tags": ["Roles"],
+                "responses": {
+                    "200": {
+                        "description": "Insertado con exito"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/roles/actualizarRol/{id}": {
+            "put": {
+                "summary": "Actualizar la informaciòn de un rol del sistema del consultorio",
+                "description": "<p>Servicio que permite editar la informaciòn de un rol del consultorio, dado el id del correspondiente rol </p><p>&nbsp;</p>",
+                "operationId": "update",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "identificador del rol",
+                        "type": "number",
+                        "default": "3"
+                    },
+                    {
+                        "name": "Rol",
+                        "in": "body",
+                        "description": "Nombre del rol",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/NuevoRol"
+                        }
+                    }
+                ],
+                "tags": ["Roles"],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/roles/eliminarRol/{id}": {
+            "delete": {
+                "tags": ["Roles"],
+                "summary": "Eliminar un rol del consultorio dado su identificador",
+                "description": "<p>Servicio que elimina un rol dado el identificador que se le envia</p><p>&nbsp;</p><p><em><strong>¿Fué una ejecución exitoso?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "identificador del rol",
+                        "type": "number",
+                        "default": "0"
+                    }
+                ]
+            }
+        },
+        "/api/medicos/mostrarTodosMedicos/": {
+            "get": {
+                "tags": [
+                    "Medicos"
+                ],
+                "summary": "Listado de todas las medicos que existen en el consultorio.",
+                "description": "<p>Servicio que devuelve la información detallada de todas los medicos que existen en el consultorio.</p><p>&nbsp;</p><p><em><strong>¿Cuáles son los medicos existentes en el consultorio?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id_medico": 1,
+                                    "id_rol": "2",
+                                    "cedula": "2345432",
+                                    "especialidad": "Cirujano"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Medicos"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": []
+            }
+        },
+        "/api/medicos/obtenerMedico/{id}": {
+            "get": {
+                "tags": ["Medicos"],
+                "summary": "Informacion asociada al medico, si es que existe en el sistema del consultorio",
+                "description": "<p>Servicio que devuelve la información detallada del medico que se solicita</p><p>&nbsp;</p><p><em><strong>¿Cual es la especialidad del medico de este id?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id_medico": 1,
+                                    "nombre": "Gustavo",
+                                    "apellidos": "Navarro",
+                                    "cedula": "2345432",
+                                    "especialidad": "Cirujano"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/MostrarMedico"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "identificador del medico",
+                        "type": "number",
+                        "default": "1"
+                    }
+                ]
+            }
+        },
+        "/api/medicos/listaEspecialidad/{specialty}": {
+            "get": {
+                "tags": ["Medicos"],
+                "summary": "Informacion asociada a los medicos de cierta especialidad si es que se encuentra en el sistema",
+                "description": "<p>Servicio que devuelve la lista de los medicos de cierta especialidad</p><p>&nbsp;</p><p><em><strong>¿Quienes son los medicos de esa especialidad?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id_medico": 1,
+                                    "nombre": "Gustavo",
+                                    "apellidos": "Navarro",
+                                    "cedula": "2345432",
+                                    "especialidad": "Cirujano"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/MostrarMedicos"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "specialty",
+                        "in": "path",
+                        "required": true,
+                        "description": "especialidad de medicos",
+                        "type": "string",
+                        "default": "Cirujano"
+                    }
+                ]
+            }
+        },
+        "/api/medicos/listaNombre/{name}": {
+            "get": {
+                "tags": ["Medicos"],
+                "summary": "Informacion asociada a los medicos con el nombre ingresado si es que se encuentra(n) en el sistema",
+                "description": "<p>Servicio que devuelve la lista de los medicos de acuerdo a su nombre</p><p>&nbsp;</p><p><em><strong>¿Existen medicos con ese nombre en el consultorio?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id_medico": 1,
+                                    "nombre": "Gustavo",
+                                    "apellidos": "Navarro",
+                                    "cedula": "2345432",
+                                    "especialidad": "Cirujano"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/MostrarMedicos"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "required": true,
+                        "description": "nombre del medicos",
+                        "type": "string",
+                        "default": "Gustavo"
+                    }
+                ]
+            }
+        },
+        "/api/medicos/crearMedico/": {
+            "post": {
+                "summary": "Creando un medico",
+                "operationId": "create",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "Medico",
+                        "in": "body",
+                        "description": "Medico agregado",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/NuevoMedico"
+                        }
+                    }
+                ],
+                "tags": ["Medicos"],
+                "responses": {
+                    "200": {
+                        "description": "Insertado con exito"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/medicos/actualizarMedico/{id}": {
+            "put": {
+                "summary": "Actualizar la informaciòn de un medico del consultorio",
+                "description": "<p>Servicio que permite editar la informaciòn de un medico del consultorio, dado el id del correspondiente medico </p><p>&nbsp;</p>",
+                "operationId": "update",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "identificador del medico",
+                        "type": "number",
+                        "default": "3"
+                    },
+                    {
+                        "name": "Medico",
+                        "in": "body",
+                        "description": "Nombre del medico",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/NuevoMedico"
+                        }
+                    }
+                ],
+                "tags": ["Medicos"],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/medicos/eliminarMedico/{id}": {
+            "delete": {
+                "tags": ["Medicos"],
+                "summary": "Eliminar un medico del consultorio dado su identificador",
+                "description": "<p>Servicio que elimina un medico dado el identificador que se le envia</p><p>&nbsp;</p><p><em><strong>¿Fué una ejecución exitoso?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "identificador del medico",
+                        "type": "number",
+                        "default": "0"
+                    }
+                ]
+            }
+        },
+        "/api/pacientes/mostrarTodosPacientes/": {
+            "get": {
+                "tags": [
+                    "Pacientes"
+                ],
+                "summary": "Listado de todos los pacientes que existen en el consultorio. ",
+                "description": "<p>Servicio que devuelve la información detallada de todos los pacientes que existen en el consultorio.</p><p>&nbsp;</p><p><em><strong>¿Cuáles son los pacientes existentes en el consultorio?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id_paciente": 1,
+                                    "nombre": "Amanda",
+                                    "apellidos": "Juárez López",
+                                    "fecha_nacimiento": "2008-12-01",
+                                    "id_consulta": "1",
+                                    "id_usuario": "1"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Pacientes"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": []
+            }
+        },
+        "/api/pacientes/listaNombre/{name}": {
+            "get": {
+                "tags": ["Pacientes"],
+                "summary": "Informacion asociada a los pacientes con el nombre ingresado si es que se encuentra(n) en el sistema",
+                "description": "<p>Servicio que devuelve la lista de los pacientes de acuerdo a su nombre</p><p>&nbsp;</p><p><em><strong>¿Existen pacientes con ese nombre en el consultorio?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id_paciente": 1,
+                                    "nombre": "Amanda",
+                                    "apellidos": "Juaréz López",
+                                    "fecha": "2008-12-01"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/MostrarMedicos"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "required": true,
+                        "description": "nombre del medicos",
+                        "type": "string",
+                        "default": "Gustavo"
+                    }
+                ]
+            }
+        },
+        "/api/pacientes/obtenerPacientes/{id}": {
+            "get": {
+                "tags": ["Pacientes"],
+                "summary": "Informacion asociada a un paciente, si es que existe en el sistema del consultorio",
+                "description": "<p>Servicio que devuelve la información del paciente que se solicita</p><p>&nbsp;</p><p><em><strong>¿Quien es el paciente de este id?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id_paciente": 1,
+                                    "nombre": "Amanda",
+                                    "apellidos": "Juárez López",
+                                    "fecha_nacimiento": "2008-12-01",
+                                    "id_consulta": "1",
+                                    "id_usuario": "1"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Paciente"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "identificador del paciente",
+                        "type": "number",
+                        "default": "1"
+                    }
+                ]
+            }
+        },
+        "/api/pacientes/crearPaciente/": {
+            "post": {
+                "summary": "Creando un paciente",
+                "operationId": "create",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "Paciente",
+                        "in": "body",
+                        "description": "Paciente agregado",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/NuevoPaciente"
+                        }
+                    }
+                ],
+                "tags": ["Pacientes"],
+                "responses": {
+                    "200": {
+                        "description": "Insertado con exito"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/pacientes/eliminarPaciente/{id}": {
+            "delete": {
+                "tags": ["Pacientes"],
+                "summary": "Eliminar un paciente del consultorio dado su identificador",
+                "description": "<p>Servicio que elimina un paciente dado el identificador que se le envia</p><p>&nbsp;</p><p><em><strong>¿Fué una ejecución exitoso?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "identificador del paciente",
+                        "type": "number",
+                        "default": "0"
+                    }
+                ]
+            }
+        },
+        "/api/pacientes/actualizarPaciente/{id}": {
+            "put": {
+                "summary": "Actualizar la información de un paciente del consultorio",
+                "description": "<p>Servicio que permite editar la informaciòn de un paciente del consultorio, dado el id del correspondiente paciente </p><p>&nbsp;</p>",
+                "operationId": "update",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "identificador del paciente",
+                        "type": "number",
+                        "default": "1"
+                    },
+                    {
+                        "name": "Paciente",
+                        "in": "body",
+                        "description": "Nombre del paciente",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/NuevoPaciente"
+                        }
+                    }
+                ],
+                "tags": ["Pacientes"],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/citas/mostrarTodasCitas/": {
+            "get": {
+                "tags": ["Citas"],
+                "summary": "Listado de todas las citas existentes en el consultorio.",
+                "description": "<p>Servicio que devuelve la información todas las citas que existen en el consultorio.</p><p>&nbsp;</p><p><em><strong>¿Cuáles son las citas que hay en el consultorio?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id_citas": 2,
+                                    "id_paciente": 4,
+                                    "id_hmedico": 1,
+                                    "fecha_cita": "2023-12-13",
+                                    "fecha_registro": "2023-12-11"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Citas"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": []
+            }
+        },
+        "/api/citas/listarunaCita/{id}": {
+            "get": {
+                "tags": ["Citas"],
+                "summary": "Informacion asociada a la cita, si es que existe en el sistema del consultorio",
+                "description": "<p>Servicio que devuelve la información detallada de la cita que se solicita</p><p>&nbsp;</p><p><em><strong>¿Cual es la cita asociada a este id?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id_citas": 2,
+                                    "id_paciente": 4,
+                                    "id_hmedico": 1,
+                                    "fecha_cita": "2023-12-13",
+                                    "fecha_registro": "2023-12-11"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/NuevaCita"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "identificador de la cita",
+                        "type": "number",
+                        "default": "1"
+                    }
+                ]
+            }
+        },
+        "/api/citas/actualizarCita/{id}": {
+            "put": {
+                "summary": "Actualizar la informaciòn de una cita del consultorio",
+                "description": "<p>Servicio que permite editar la informaciòn de una cita del consultorio, dado el id correspondiente</p><p>&nbsp;</p>",
+                "operationId": "update",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "identificador del medico",
+                        "type": "number",
+                        "default": "3"
+                    },
+                    {
+                        "name": "Cita",
+                        "in": "body",
+                        "description": "Nombre de la cita",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/NuevaCita"
+                        }
+                    }
+                ],
+                "tags": ["Citas"],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/citas/crearCita/": {
+            "post": {
+                "summary": "Creando una cita",
+                "operationId": "create",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "Cita",
+                        "in": "body",
+                        "description": "Cita agregado",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/NuevaCita"
+                        }
+                    }
+                ],
+                "tags": ["Citas"],
+                "responses": {
+                    "200": {
+                        "description": "Insertado con exito"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/citas/eliminarCita/{id}": {
+            "delete": {
+                "tags": ["Citas"],
+                "summary": "Eliminar una cita del consultorio dado su identificador",
+                "description": "<p>Servicio que elimina una cita dado el identificador que se le envia</p><p>&nbsp;</p><p><em><strong>¿Fué una ejecución exitoso?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "identificador de la cita",
+                        "type": "number",
+                        "default": "0"
+                    }
+                ]
+            }
+        },
+        "/api/horariomedico/mostrarTodosHorario/": {
+            "get": {
+                "tags": ["Horario_Medicos"],
+                "summary": "Listado de todas los horarios de los medicos existentes en el consultorio.",
+                "description": "<p>Servicio que devuelve la información todos los Horarios de Medicos que existen en el consultorio.</p><p>&nbsp;</p><p><em><strong>¿Cuáles son los Horarios de Medicos que hay en el consultorio?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id_horario": 1,
+                                    "id_medico": 1,
+                                    "hora": "09:00",
+                                    "estado_hora": "disponible"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/HorariosMedicos"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": []
+            }
+        },
+        "/api/horariomedico/obtenerHora/{id}": {
+            "get": {
+                "tags": ["Horario_Medicos"],
+                "summary": "Informacion asociada a una hora de un medico, si es que existe en el sistema del consultorio",
+                "description": "<p>Servicio que devuelve la información detallada de la hora que se solicita</p><p>&nbsp;</p><p><em><strong>¿Cual es la hora asociada a este id?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id_horario": 1,
+                                    "id_medico": 1,
+                                    "hora": "09:00",
+                                    "estado_hora": "disponible"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/NuevaHora"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "identificador de la hora",
+                        "type": "number",
+                        "default": "1"
+                    }
+                ]
+            }
+        },
+        "/api/horariomedico/actualizarHora/{id}": {
+            "put": {
+                "summary": "Actualizar la informaciòn de una hora de un medico del consultorio",
+                "description": "<p>Servicio que permite editar la informaciòn de una hora de un medico del consultorio, dado el id correspondiente</p><p>&nbsp;</p>",
+                "operationId": "update",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "identificador de la hora",
+                        "type": "number",
+                        "default": "1"
+                    },
+                    {
+                        "name": "Hora",
+                        "in": "body",
+                        "description": "Nombre de hora",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/NuevaHora"
+                        }
+                    }
+                ],
+                "tags": ["Horario_Medicos"],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/horariomedico/crearHora/": {
+            "post": {
+                "summary": "Creando una hora",
+                "operationId": "create",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "Hora",
+                        "in": "body",
+                        "description": "Hora agregado",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/NuevaHora"
+                        }
+                    }
+                ],
+                "tags": ["Horario_Medicos"],
+                "responses": {
+                    "200": {
+                        "description": "Insertado con exito"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/horariomedico/eliminarHora/{id}": {
+            "delete": {
+                "tags": ["Horario_Medicos"],
+                "summary": "Eliminar una hora de un medico del consultorio dado su identificador",
+                "description": "<p>Servicio que elimina una hora de un medico del consultorio dado el identificador que se le envia</p><p>&nbsp;</p><p><em><strong>¿Fué una ejecución exitoso?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "identificador de la hora",
+                        "type": "number",
+                        "default": "0"
+                    }
+                ]
+            }
+        },
+        "/api/historialclinico/mostrarTodoHistorial/": {
+            "get": {
+                "tags": ["Historial_Clinico"],
+                "summary": "Listado de todas los historiales clinicos existentes en el consultorio.",
+                "description": "<p>Servicio que devuelve la información todos los historiales clinicos que existen en el consultorio.</p><p>&nbsp;</p><p><em><strong>¿Cuáles son los historiales clinicos que hay en el consultorio?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id_historialc": 1,
+                                    "id_paciente": 1,
+                                    "fecha_registro": "2023-12-08",
+                                    "T.A": 0,
+                                    "F.C": 89,
+                                    "F.R": 17,
+                                    "Temp.": 36,
+                                    "Peso": 55,
+                                    "Talla": 2,
+                                    "C.Abdomen": 70,
+                                    "IMC": 36.6,
+                                    "Alergias": "NINGUNA",
+                                    "nota_evolucion": "Paciente que padece náuseas y repulsión por la comida en general.",
+                                    "enfermedad": "Gastroenteritis presunto origen infeccioso."
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/HistorialClinico"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": []
+            }
+        },
+        "/api/historialclinico/listarunHistorial/{id}": {
+            "get": {
+                "tags": ["Historial_Clinico"],
+                "summary": "Informacion asociada a un historial clinico, si es que existe en el sistema del consultorio",
+                "description": "<p>Servicio que devuelve la información detallada de un historial clinico</p><p>&nbsp;</p><p><em><strong>¿Cual es el historial clinico asociada a este id?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id_historialc": 1,
+                                    "id_paciente": 1,
+                                    "fecha_registro": "2023-12-08",
+                                    "T.A": 0,
+                                    "F.C": 89,
+                                    "F.R": 17,
+                                    "Temp.": 36,
+                                    "Peso": 55,
+                                    "Talla": 2,
+                                    "C.Abdomen": 70,
+                                    "IMC": 36.6,
+                                    "Alergias": "NINGUNA",
+                                    "nota_evolucion": "Paciente que padece náuseas y repulsión por la comida en general.",
+                                    "enfermedad": "Gastroenteritis presunto origen infeccioso."
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/HistorialClinico"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "identificador del historial",
+                        "type": "number",
+                        "default": "1"
+                    }
+                ]
+            }
+        },
+        "/api/historialclinico/actualizarHistorial/{id}": {
+            "put": {
+                "summary": "Actualizar la informaciòn de un historial clinico de un paciente del consultorio",
+                "description": "<p>Servicio que permite editar la información de un historial clinico de un paciente del consultorio, dado el id correspondiente</p><p>&nbsp;</p>",
+                "operationId": "update",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "identificador del historial",
+                        "type": "number",
+                        "default": "1"
+                    },
+                    {
+                        "name": "Historial_Clinico",
+                        "in": "body",
+                        "description": "Nombre del historial clinico",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/NuevoHistorialClinico"
+                        }
+                    }
+                ],
+                "tags": ["Historial_Clinico"],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/historialclinico/crearHistorial/": {
+            "post": {
+                "summary": "Creando un historial",
+                "operationId": "create",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "Historial_Clinico",
+                        "in": "body",
+                        "description": "Historial clinico agregado",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/NuevoHistorialClinico"
+                        }
+                    }
+                ],
+                "tags": ["Historial_Clinico"],
+                "responses": {
+                    "200": {
+                        "description": "Insertado con exito"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/consulta/crearConsulta/": {
+            "post": {
+                "summary": "Creando una consulta",
+                "operationId": "create",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "Consulta",
+                        "in": "body",
+                        "description": "Consulta agregado",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/NuevaConsulta"
+                        }
+                    }
+                ],
+                "tags": ["Consulta"],
+                "responses": {
+                    "200": {
+                        "description": "Insertado con exito"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Usuario": {
+            "type": "object",
+            "properties": {
+                "id_usuario": {
+                    "type": "int",
+                    "description": "Codigo que permite identificar al usuario"
+                },
+                "nombre": {
+                    "type": "string",
+                    "description": "Nombre del usuario"
+                },
+                "apellidos": {
+                    "type": "string",
+                    "description": "Apellidos del usuario"
+                },
+                "correo": {
+                    "type": "string",
+                    "description": "Correo del usuario"
+                },
+                "contraseña": {
+                    "type": "string",
+                    "description": "Contraseña del usuario"
+                },
+                "edad": {
+                    "type": "int",
+                    "description": "Edad del usuario"
+                },
+                "id_rol": {
+                    "type": "int",
+                    "description": "Codigo que permite identificar el rol del usuario"
+                },
+                "telefono": {
+                    "type": "int",
+                    "description": "Telefono del usuario"
+                }
+            }
+        },
+        "Usuarios": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/Usuario"
+            }
+        },
+        "UsuarioNombre": {
+            "type": "object",
+            "properties": {
+                "id_usuario": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar al usuario"
+                },
+                "nombre": {
+                    "type": "string",
+                    "description": "Nombre del usuario"
+                },
+                "apellidos": {
+                    "type": "string",
+                    "description": "Apellidos del usuario"
+                },
+                "correo": {
+                    "type": "string",
+                    "description": "Correo del usuario"
+                },
+                "contraseña": {
+                    "type": "string",
+                    "description": "Contraseña del usuario"
+                },
+                "telefono": {
+                    "type": "number",
+                    "description": "Telefono del usuario"
+                },
+                "nombre_rol": {
+                    "type": "string",
+                    "description": "Rol del usuario"
+                }
+            }
+        },
+        "MostrarUsuariosNombre": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/UsuarioNombre"
+            }
+        },
+        "NuevoUsuario": {
+            "type": "object",
+            "properties": {
+                "nombre": {
+                    "type": "string",
+                    "description": "Nombre del usuario"
+                },
+                "apellidos": {
+                    "type": "string",
+                    "description": "Apellidos del usuario"
+                },
+                "correo": {
+                    "type": "string",
+                    "description": "Correo del usuario"
+                },
+                "contraseña": {
+                    "type": "string",
+                    "description": "Contraseña del usuario"
+                },
+                "edad": {
+                    "type": "number",
+                    "description": "Edad del usuario"
+                },
+                "id_rol": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar el rol del usuario"
+                },
+                "telefono": {
+                    "type": "number",
+                    "description": "Telefono del usuario"
+                }
+            }
+        },
+        "ValidarUsuario": {
+            "type": "object",
+            "properties": {
+                "correo": {
+                    "type": "string",
+                    "description": "Correo del usuario"
+                },
+                "contraseña": {
+                    "type": "string",
+                    "description": "Contraseña del usuario"
+                }
+            }
+        },
+        "MostrarMedico": {
+            "type": "object",
+            "properties": {
+                "id_medico": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar al medico"
+                },
+                "nombre": {
+                    "type": "string",
+                    "description": "Campo que permite conocer el nombre del medico solicitado"
+                },
+                "apellidos": {
+                    "type": "string",
+                    "description": "Campo que permite conocer el apellidos del medico solicitado"
+                },
+                "cedula": {
+                    "type": "string",
+                    "description": "Codigo que permite saber la cedula profesional del medico"
+                },
+                "especialidad": {
+                    "type": "string",
+                    "description": "Este codigo permite saber la especialidad del medico"
+                }
+            }
+        },
+        "MostrarMedicos": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/MostrarMedico"
+            }
+        },
+        "Medico": {
+            "type": "object",
+            "properties": {
+                "id_medico": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar al medico"
+                },
+                "id_rol": {
+                    "type": "number",
+                    "description": "identificador del rol del medico, siempre es 2"
+                },
+                "cedula": {
+                    "type": "string",
+                    "description": "Codigo que permite saber la cedula profesional del medico"
+                },
+                "especialidad": {
+                    "type": "string",
+                    "description": "Este codigo permite saber la especialidad del medico"
+                }
+            }
+        },
+        "Medicos": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/Medico"
+            }
+        },
+        "NuevoMedico": {
+            "type": "object",
+            "properties": {
+                "id_rol": {
+                    "type": "number",
+                    "description": "identificador de rol del medico, siempre es 2"
+                },
+                "cedula": {
+                    "type": "string",
+                    "description": "Codigo que permite saber la cedula profesional del medico"
+                },
+                "especialidad": {
+                    "type": "string",
+                    "description": "Este codigo permite saber la especialidad del medico"
+                }
+            }
+        },
+        "Paciente": {
+            "type": "object",
+            "properties": {
+                "id_paciente": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar al paciente"
+                },
+                "nombre": {
+                    "type": "string",
+                    "description": "Nombre del paciente"
+                },
+                "apellidos": {
+                    "type": "string",
+                    "description": "Apellidos del paciente"
+                },
+                "fecha": {
+                    "type": "string",
+                    "description": "fecha de nacimiento"
+                },
+                "id_consulta": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar la consulta del paciente"
+                }
+            }
+        },
+        "Pacientes": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/Paciente"
+            }
+        },
+        "NuevoPaciente": {
+            "type": "object",
+            "properties": {
+                "nombre": {
+                    "type": "string",
+                    "description": "Nombre del paciente"
+                },
+                "apellidos": {
+                    "type": "string",
+                    "description": "Apellidos del paciente"
+                },
+                "fecha": {
+                    "type": "string",
+                    "description": "fecha de nacimiento del paciente"
+                },
+                "id_consulta": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar la consulta del paciente"
+                }
+            }
+        },
+        "Rol": {
+            "type": "object",
+            "properties": {
+                "id_rol": {
+                    "type": "int",
+                    "description": "Codigo que permite identificar al rol"
+                },
+                "nombre_rol": {
+                    "type": "string",
+                    "description": "Nombre del rol"
+                }
+            }
+        },
+        "Roles": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/Rol"
+            }
+        },
+        "NuevoRol": {
+            "type": "object",
+            "properties": {
+                "nombre_rol": {
+                    "type": "string",
+                    "description": "Nombre del rol"
+                }
+            }
+        },
+        "Cita": {
+            "type": "object",
+            "properties": {
+                "id_citas": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar la cita"
+                },
+                "id_paciente": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar al paciente de la cita"
+                },
+                "id_hmedico": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar al medico con el que se realiza la cita"
+                },
+                "fecha_cita": {
+                    "type": "date",
+                    "description": "fecha de la cita"
+                },
+                "fecha_registro": {
+                    "type": "date",
+                    "description": "fecha de registro de la cita"
+                }
+            }
+        },
+        "Citas": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/Cita"
+            }
+        },
+        "NuevaCita": {
+            "type": "object",
+            "properties": {
+                "id_paciente": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar al paciente de la cita"
+                },
+                "id_hmedico": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar al medico con el que se realiza la cita"
+                },
+                "fecha_cita": {
+                    "type": "date",
+                    "description": "fecha de la cita"
+                },
+                "fecha_registro": {
+                    "type": "date",
+                    "description": "fecha de registro de la cita"
+                }
+            }
+        },
+        "HorarioMedico": {
+            "type": "object",
+            "properties": {
+                "id_horario": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar cada hora"
+                },
+                "id_hmedico": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar al medico con el que se realiza la cita"
+                },
+                "hora": {
+                    "type": "character",
+                    "description": "Hora disponible del médico"
+                },
+                "estado_hora": {
+                    "type": "string",
+                    "description": "Disponibilidad de la hora"
+                }
+            }
+        },
+        "HorariosMedicos": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/HorarioMedico"
+            }
+        },
+        "NuevaHora": {
+            "type": "object",
+            "properties": {
+                "id_hmedico": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar al medico con el que se realiza la cita"
+                },
+                "hora": {
+                    "type": "character",
+                    "description": "Hora disponible del médico"
+                },
+                "estado_hora": {
+                    "type": "string",
+                    "description": "Disponibilidad de la hora"
+                }
+            }
+        },
+        "HistorialClinico": {
+            "type": "object",
+            "properties": {
+                "id_historialc": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar cada historial clinico"
+                },
+                "id_paciente": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar al paciente del historial clinico"
+                },
+                "fecha_registro": {
+                    "type": "date",
+                    "description": "Hora de registro del historial clinico"
+                },
+                "T.A": {
+                    "type": "number",
+                    "description": "Numero que permite identificar la tensión arterial del paciente"
+                },
+                "F.C": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar la frecuencia cardiaca del paciente"
+                },
+                "F.R": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar el factor reumatoideo del paciente"
+                },
+                "Temp.": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar la temperatura del paciente"
+                },
+                "Peso": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar el peso del paciente"
+                },
+                "Talla": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar la talla del paciente"
+                },
+                "C.Abdomen": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar circunferencia abdominal del paciente"
+                },
+                "IMC": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar el indice de masa corporal del paciente"
+                },
+                "Alergias": {
+                    "type": "string",
+                    "description": "Campo que permite registrar las alergias del paciente"
+                },
+                "nota_evolucion": {
+                    "type": "string",
+                    "description": "Campo que permite ingresar el estado en el que llega el paciente"
+                },
+                "enfermedad": {
+                    "type": "string",
+                    "description": "Campo que permiteregistrar las posibles enfermedades del paciente"
+                }
+            }
+        },
+        "HistorialesClinicos": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/HistorialClinico"
+            }
+        },
+        "NuevoHistorialClinico": {
+            "type": "object",
+            "properties": {
+                "id_paciente": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar al paciente del historial clinico"
+                },
+                "fecha_registro": {
+                    "type": "date",
+                    "description": "Hora de registro del historial clinico"
+                },
+                "T.A": {
+                    "type": "number",
+                    "description": "Numero que permite identificar la tensión arterial del paciente"
+                },
+                "F.C": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar la frecuencia cardiaca del paciente"
+                },
+                "F.R": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar el factor reumatoideo del paciente"
+                },
+                "Temp.": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar la temperatura del paciente"
+                },
+                "Peso": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar el peso del paciente"
+                },
+                "Talla": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar la talla del paciente"
+                },
+                "C.Abdomen": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar circunferencia abdominal del paciente"
+                },
+                "IMC": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar el indice de masa corporal del paciente"
+                },
+                "Alergias": {
+                    "type": "string",
+                    "description": "Campo que permite registrar las alergias del paciente"
+                },
+                "nota_evolucion": {
+                    "type": "string",
+                    "description": "Campo que permite ingresar el estado en el que llega el paciente"
+                },
+                "enfermedad": {
+                    "type": "string",
+                    "description": "Campo que permiteregistrar las posibles enfermedades del paciente"
+                }
+            }
+        },
+        "Consulta": {
+            "type": "object",
+            "properties": {
+                "id_consulta": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar cada consulta"
+                },
+                "id_historialc": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar al historial clinico asociado a la consulta"
+                },
+                "indicaciones_generales": {
+                    "type": "string",
+                    "description": "Campo que permite registrar las indicaciones generales para el paciente"
+                },
+                "TRATAMIENTO": {
+                    "type": "string",
+                    "description": "Campo que permite ingresar el tratamiento para el paciente"
+                },
+                "NOTAS_ADICCIONALES": {
+                    "type": "string",
+                    "description": "Campo que permite registrar notas adicionales para el paciente"
+                }
+            }
+        },
+        "NuevaConsulta": {
+            "type": "object",
+            "properties": {
+                "id_historialc": {
+                    "type": "number",
+                    "description": "Codigo que permite identificar al historial clinico asociado a la consulta"
+                },
+                "indicaciones_generales": {
+                    "type": "string",
+                    "description": "Campo que permite registrar las indicaciones generales para el paciente"
+                },
+                "TRATAMIENTO": {
+                    "type": "string",
+                    "description": "Campo que permite ingresar el tratamiento para el paciente"
+                },
+                "NOTAS_ADICCIONALES": {
+                    "type": "string",
+                    "description": "Campo que permite registrar notas adicionales para el paciente"
+                }
+            }
+        }
+    }
+}
